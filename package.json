@@ -4,12 +4,16 @@
   "description": "",
   "main": "main.js",
   "scripts": {
-    "start": "set PORT=3000&&node main.js",
+    "start_win": "set PORT=3000&&node main.js",
+    "start_lin": "PORT=3000 node main.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "express": "^4.18.1",
+    "mustache": "^4.2.0",
+    "mustache-express": "^1.3.2",
     "mysql": "^2.18.1",
     "node": "^17.7.2"
   }
