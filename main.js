@@ -23,10 +23,8 @@ app.use(express.urlencoded({
 
 // Register '.mustache' extension with The Mustache Express
 app.engine('mustache', mustacheExpress());
-
 app.set('view engine', 'mustache');
 app.set('views', path.join(__dirname,'views'));
-
 app.engine('mst', mustacheExpress(VIEWS_PATH, '.mst'));
 
 

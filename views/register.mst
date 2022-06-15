@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="es-ES">
+    <head>
+        {{ head }}
+    </head>
+    <body>
+        <div class="todo">
+            <h1>REGISTER</h1>
+            <form action="/register_action" method="post">
+                <label for="fname">First name:</label><br>
+                <input type="text" id="name" name="name" placeholder="Name"><br>
+                <label for="lname">Last name:</label><br>
+                <input type="password" id="pass" name="pass" placeholder="Pass"><br>
+                <label for="lname">Ubication</label><br>
+                <input type="text" id="ubication" name="ubication" placeholder="ubication"><br><br>
+                <input type="submit" id="boton" placeholder="Register" href="login.html">
+            </form>         
+        </div>
+    </body>
+</html>
