@@ -24,7 +24,7 @@ app.use(express.urlencoded({
 // Register '.mustache' extension with The Mustache Express
 app.engine('mustache', mustacheExpress());
 app.set('view engine', 'mustache');
-app.set('views', path.join(__dirname,'views'));
+app.set('views', path.join(__dirname, 'views'));
 app.engine('mst', mustacheExpress(VIEWS_PATH, '.mst'));
 
 
@@ -39,14 +39,8 @@ app.engine('mst', mustacheExpress(VIEWS_PATH, '.mst'));
 //rendering example for response
 
 
-app.get('/ejemplo',(req,res)=>{
-    res.render('ejemplo.mst',{msg:'tu pyagdhgj'});
-});
-
-
-app.get('/nuevoindex',(req,res)=>{
+app.get('/nuevoindex', (req, res) => {
     console.log("aquiiiii")
-
 
 
 
@@ -55,30 +49,22 @@ app.get('/nuevoindex',(req,res)=>{
 
 
     var head = ""
-    try 
-    {
-        const data = fs.readFileSync(path.join(__dirname,'views','head.mst'));
-        head = data
+    try {
+        const data = fs.readFileSync(path.join(__dirname, 'views', 'head.mst'), "utf8");
+        head = data;
     } catch (err) {
         console.error(err);
     }
 
     console.log(head)
 
-    res.render('index.mst',{
-        head: head, 
-        ubicaciones: "<span>aaaaaa</span>"
+    res.render('index.mst', {
+        head: head,
     });
 });
 
-
-
-
-
-
-
 app.post('/login_action', (req, res) => {
-    const {name, pass} = req.query;
+    const { name, pass } = req.body;
 
 
     console.log(`Aqui esta el user ${name} con el pass ${pass}`);
@@ -89,17 +75,13 @@ app.post('/login_action', (req, res) => {
 
 app.post('/registro_action', (req, res) => {
 
+
     console.log("registro_user TODO");
     res.send("registro_user");
 })
 
-app.use('/yoqueseu', (req, res) => {
-    console.log("yoqueseu TODO");
-    res.send("yoqueseu");
-})
-
 app.use('/', express.static(STATIC_PATH));
 
-app.listen(PORT, function() {
+app.listen(PORT, function () {
     console.log(`Servidor web escuchando en el puerto ${PORT}, sirviendo el contenido de ${STATIC_PATH}`);
 });
