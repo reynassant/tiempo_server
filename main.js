@@ -1,7 +1,7 @@
 var path = require('path');
 const express = require('express');
 const app = express();
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 3000;
 const STATIC_FOLDER = path.join(__dirname, '..', 'tiempo_cliente');
 
 app.use(express.urlencoded({
@@ -17,8 +17,11 @@ app.post('/login_action', (req, res)=>{
     console.log("LOGIN TODO");
     res.send("LOGIN");
 })
+
 app.post('/registro_action', (req, res)=>{ 
-        
+
+    
+    
     console.log("registro_user TODO");
     res.send("registro_user");
 })
