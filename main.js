@@ -14,9 +14,6 @@ app.use(express.urlencoded({
     extended: true
 }));
 
-
-
-
 // Setting mustachejs as view engine
 // app.set('views',path.join(__dirname,'views'));
 // app.set('view engine','html');
@@ -28,38 +25,23 @@ app.set('views', path.join(__dirname, 'views'));
 app.engine('mst', mustacheExpress(VIEWS_PATH, '.mst'));
 
 
-
-
-
-
-
-
-
-
 //rendering example for response
 
-
-app.get('/nuevoindex', (req, res) => {
-    console.log("aquiiiii")
-
-
-
-
-    /// const pre = Mustache.render(path.join(__dirname,'views','pre.mst'))
-
-
-    var head = ""
+let getTemplate = (template) => {
+    var content = ""
     try {
-        const data = fs.readFileSync(path.join(__dirname, 'views', 'head.mst'), "utf8");
-        head = data;
+        content = fs.readFileSync(path.join(__dirname, 'views', template), "utf8");;
     } catch (err) {
         console.error(err);
     }
 
-    console.log(head)
+    return content;
+}
 
+app.get('/nuevoindex', (req, res) => {
+    /// const pre = Mustache.render(path.join(__dirname,'views','pre.mst'))
     res.render('index.mst', {
-        head: head,
+        head: getTemplate("head.mst"),
     });
 });
 

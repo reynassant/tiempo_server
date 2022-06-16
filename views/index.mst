@@ -1,23 +1,17 @@
 <!DOCTYPE html>
 <html>
-
-<head>
-    {{{ head }}}
-</head>
-
-<body>
-    <div class="visores" id="fijo">
-    </div>
-    <div id="organizador_paises">
-
-    </div>
-    <div id="div_coordenadas">
-        <input type="number"><input type="number"><button>OK</button>
-    </div>
-    <div id="map"></div>
-    <div class="visores" id="resultado"></div>
-</body>
-<script src="https://unpkg.com/leaflet@1.0.2/dist/leaflet.js"></script>
-<script type="text/javascript" src="js/main.js"></script>
-
+    <head>
+        {{{ head }}}
+    </head>
+    <body>
+        <div class="visores" id="fijo"></div>
+        <div id="organizador_paises"></div>
+        <div id="div_coordenadas">
+            <input type="number">
+            <input type="number">
+            <button>OK</button>
+        </div>
+        <div id="map"></div>
+        <div class="visores" id="resultado"></div>
+    </body>
 </html>
