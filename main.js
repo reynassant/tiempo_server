@@ -1,12 +1,16 @@
 const path = require('path');
 const express = require('express');
-const fs = require("fs")
+const fs = require("fs");
 const Mustache = require('mustache');
 const mustacheExpress = require("mustache-express")
+const ddbb = require("./ddbb");
+
 const app = express();
 const PORT = process.env.PORT;
 const STATIC_PATH = path.join(__dirname, '..', 'tiempo_cliente');
 const VIEWS_PATH = path.join(__dirname, 'views');
+
+
 
 // To set functioning of mustachejs view engine
 
@@ -61,6 +65,8 @@ app.post('/registro_action', (req, res) => {
 
     console.log("registro_user TODO");
     res.send("registro_user");
+
+
 })
 
 app.use('/', express.static(STATIC_PATH));

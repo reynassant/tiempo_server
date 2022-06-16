@@ -32,12 +32,10 @@ function registrarUsuario(usuario, pass)
     var newUser = 
     {
         usuario: usuario || `U_${getDatetime()}`,
-        pass: pass || 'abcde'
+        pass: pass || 'abcde',
+        salt: crypto.randomBytes(22).toString("hex"),
     }
-
-    newUser.salt = crypto.randomBytes(22).toString("hex");
-
-    var con = mysql.createConnection(ddbbConf);
+    newUser.hash = crypto.createHash('sha256').update(newUser.pass + newUser.salt).digest('hex');
 
     var queryIns = `
         INSERT INTO registro
@@ -45,28 +43,42 @@ function registrarUsuario(usuario, pass)
         VALUES
         (
             '${newUser.usuario}',
-            '${crypto.createHash('sha256').update(newUser.pass + newUser.salt).digest('hex')}',
+            '${newUser.hash}',
             '${newUser.salt}'
         );`;
 
-    con.connect(function(err) {
-        if (err) throw err;
-    
-        con.query(queryIns, function(err, result, fields) {
+
+    var con = mysql.createConnection(ddbbConf);
+
+    var userId;
+
+    try
+    {
+        con.connect(function(err) {
             if (err) throw err;
-            console.log(`Inserted User: ${result.insertId}`);
-            con.end();
+
+            con.query(queryIns, function(err, result, fields) {
+                if (err) throw err;
+                console.log(`Inserted User: ${result.insertId}`);
+                userId = result.insertId
+                con.end();
+            });
         });
-    });
+    } catch (e) {
+        con.end();
+
+        const errMsg = `FALLO AL INSERTAR USUARIO`;
+        console.log(errMsg);
+        throw errMsg;
+    }
 }
 
 
-// registrarUsuario("usuario987987", "pass")
-
+// registrarUsuario("usuario987987", "pass");
 // return id_usuario  OR ¿?¿?
 // function loginUsuario(usuario, pass) { return 62;}
 // function addUbicacion(id_usuario, nombre, lat, lon) {}
-// listaUbicacion(id_usuario) {}
+// function listaUbicacion(id_usuario) {}
 
 /*
 function imprimeUsuarios(result) {
