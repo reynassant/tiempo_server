@@ -1,3 +1,4 @@
+const dotenv = require('dotenv').config();
 const crypto = require('crypto');
 const mysql = require('mysql');
 //const axios = require('axios');
@@ -10,7 +11,7 @@ const apiKey = {
 const ddbbConf = {
     host: "localhost",
     user: "root",
-    password: "krono",
+    password: process.env.SQLPASS || "krono",
     database: "ltiempo",
 }
 
@@ -50,8 +51,6 @@ function registrarUsuario(usuario, pass)
 
     var con = mysql.createConnection(ddbbConf);
 
-    var userId;
-
     try
     {
         con.connect(function(err) {
@@ -60,20 +59,59 @@ function registrarUsuario(usuario, pass)
             con.query(queryIns, function(err, result, fields) {
                 if (err) throw err;
                 console.log(`Inserted User: ${result.insertId}`);
-                userId = result.insertId
                 con.end();
             });
         });
-    } catch (e) {
+    } catch (err) {
         con.end();
 
         const errMsg = `FALLO AL INSERTAR USUARIO`;
         console.log(errMsg);
-        throw errMsg;
     }
 }
 
+function loginUsuario(usuario, pass)
+{
+    // newUser.hash = crypto.createHash('sha256').update(newUser.pass + newUser.salt).digest('hex');
 
+    var querySel = `
+    SELECT idRegistro, usuario, \`hash\`, salt 
+    FROM ltiempo.registro 
+    WHERE usuario="${usuario}";`;
+
+    var con = mysql.createConnection(ddbbConf);
+
+    try
+    {
+        con.connect(function(err) {
+            if (err) throw err;
+
+            con.query(querySel, function(err, result, fields) {
+                if (err) throw err;
+                console.log(result);
+                console.log("************");
+                con.end();
+            });
+        });
+    } catch (err) {
+        con.end();
+
+        const errMsg = `FALLO AL LOGUEAR USUARIO`;
+        console.log(errMsg);
+    }
+}
+
+/*
+{
+    status: 1, // 0 usuario logueado, 1 Usuario incorrecto, 2 Contraseña incorrecta
+    idUser: undefined, 
+    nameUser: undefined,
+    msg: "Usuario incorrecto" 
+
+}
+*/
+
+// loginUsuario("Pedro","pass");
 // registrarUsuario("usuario987987", "pass");
 // return id_usuario  OR ¿?¿?
 // function loginUsuario(usuario, pass) { return 62;}
