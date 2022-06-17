@@ -31,17 +31,7 @@ app.set('view engine', 'mustache');
 app.set('views', path.join(__dirname,'views'));
 app.engine('mst', mustacheExpress(VIEWS_PATH, '.mst'));
 
-
-
-
-
-
-
-
-
-
 //rendering example for response
-
 
 app.get('/ejemplo',(req,res)=>{
     res.render('ejemplo.mst',{msg:'tu pyagdhgj'});
@@ -58,7 +48,6 @@ app.get('/registro',(req,res) =>{
         head: 'Pagina de Registro',         
     });    
 });
-
 
 app.get('/nuevoindex',(req,res)=>{
     console.log("aquiiiii")
@@ -97,7 +86,7 @@ app.post('/register_action', (req, res) => {
     const {usuario, pass} = req.body;    
     console.log(`Aqui esta el user ${usuario} con el pass ${pass}`);    
     let newUserId = ddbb.registrarUsuario(usuario, pass);        
-    //res.send("registro_user");
+    res.send("registro_user");
 
 })
 
