@@ -7,9 +7,9 @@
         <div class="todo">
             <h1>LOGIN</h1>
             <form action="/login_action" method="post">ç
-                <label for="fname">First name:</label><br>
-                <input type="text" id="name" name="name" placeholder="Name"><br>
-                <label for="lname">Last name:</label><br>
+                <label for="fname">Usuario:</label><br>
+                <input type="text" id="usuario" name="usuario" placeholder="usuario"><br>
+                <label for="lname">Password:</label><br>
                 <input type="password" id="pass" name="pass" placeholder="Pass"><br><br>
                 <input type="submit" id="boton" placeholder="Login" href="index.html">
             </form>         

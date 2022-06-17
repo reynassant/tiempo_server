@@ -63,10 +63,6 @@ app.post('/login_action', (req, res) => {
 app.post('/registro_action', (req, res) => {
     const { name, pass } = req.body;
 
-    console.log("registro_user TODO");
-    res.send("registro_user");
-
-
 })
 
 app.use('/', express.static(STATIC_PATH));
