@@ -47,6 +47,18 @@ app.get('/ejemplo',(req,res)=>{
     res.render('ejemplo.mst',{msg:'tu pyagdhgj'});
 });
 
+app.get('/login',(req,res) =>{
+    res.render('index.mst',{
+        head: 'Pagina de Log-in',         
+    });    
+});
+
+app.get('/registro',(req,res) =>{
+    res.render('register.mst',{
+        head: 'Pagina de Registro',         
+    });    
+});
+
 
 app.get('/nuevoindex',(req,res)=>{
     console.log("aquiiiii")
@@ -75,16 +87,17 @@ app.use('/login_action', (req, res) => {
 
     console.log(`Aqui esta el user ${name} con el pass ${pass}`);
 
-    let newUserId = ddbb.registrarUsuario(name, pass);
+   // let newUserId = ddbb.registrarUsuario(name, pass);
 
-    res.send(`Aqui esta el user ${name} con el pass ${pass} se ha regisrado con el ID: ${newUserId}`);
+    
 })
 
-app.post('/registro_action', (req, res) => {
-
-    console.log("registro_user TODO");
-    res.send("registro_user");
-
+app.post('/register_action', (req, res) => {
+    
+    const {usuario, pass} = req.body;    
+    console.log(`Aqui esta el user ${usuario} con el pass ${pass}`);    
+    let newUserId = ddbb.registrarUsuario(usuario, pass);        
+    //res.send("registro_user");
 
 })
 
