@@ -6,7 +6,7 @@
     <body>
         <div class="todo">
             <h1>LOGIN</h1>
-            <form action="/login_action" method="post">ç
+            <form action="/login_action" method="post">
                 <label for="fname">Usuario:</label><br>
                 <input type="text" id="usuario" name="usuario" placeholder="usuario"><br>
                 <label for="lname">Password:</label><br>
