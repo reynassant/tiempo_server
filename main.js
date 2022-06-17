@@ -38,18 +38,18 @@ app.get('/ejemplo',(req,res)=>{
 });
 
 app.get('/login',(req,res) =>{
-    res.render('index.mst',{
+    res.render('login.mst',{
         head: 'Pagina de Log-in',         
     });    
 });
 
-app.get('/registro',(req,res) =>{
+app.get('/registro',(req, res) =>{
     res.render('register.mst',{
         head: 'Pagina de Registro',         
     });    
 });
 
-app.get('/nuevoindex',(req,res)=>{
+app.get('/nuevoindex',(req, res)=>{
     console.log("aquiiiii")
 
     /// const pre = Mustache.render(path.join(__dirname,'views','pre.mst'))
@@ -72,11 +72,10 @@ app.get('/nuevoindex',(req,res)=>{
 });
 
 app.use('/login_action', (req, res) => {
-    const {name, pass} = req.body;
-
-    console.log(`Aqui esta el user ${name} con el pass ${pass}`);
-
-   // let newUserId = ddbb.registrarUsuario(name, pass);
+    const {usuario, pass} = req.body;
+    
+    ddbb.loginUsuario(usuario, pass, res);
+    // let newUserId = ddbb.registrarUsuario(usuario, pass);
 
     
 })
@@ -85,8 +84,8 @@ app.post('/register_action', (req, res) => {
     
     const {usuario, pass} = req.body;    
     console.log(`Aqui esta el user ${usuario} con el pass ${pass}`);    
-    let newUserId = ddbb.registrarUsuario(usuario, pass);        
-    res.send("registro_user");
+    ddbb.registrarUsuario(usuario, pass, res);        
+    // res.send("registro_user");
 
 })
 

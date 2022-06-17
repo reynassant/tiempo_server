@@ -1,7 +1,6 @@
 const dotenv = require('dotenv').config();
 const crypto = require('crypto');
 const mysql = require('mysql');
-//const axios = require('axios');
 
 const apiKey = {
     positionStack: "4135e834e062ecba56ae7aaa12e8c353",
@@ -15,7 +14,27 @@ const ddbbConf = {
     database: "ltiempo",
 }
 
-function registrarUsuario(usuario, pass)
+function executeQuery(query, callback, res) {
+   
+    var con = mysql.createConnection(ddbbConf);
+    try
+    {
+        con.connect(function(err) {
+            if (err) throw err;
+
+            con.query(query, function(err, result, fields) {
+                if (err) throw err;
+                con.end();
+                callback(result, res);
+            });
+        });
+    } catch (err) {
+        con.end();
+        console.log(err);
+    }
+}
+
+function registrarUsuario(usuario, pass, res)
 {
     function getDatetime() {
         var currentdate = new Date();
@@ -38,7 +57,7 @@ function registrarUsuario(usuario, pass)
     }
     newUser.hash = crypto.createHash('sha256').update(newUser.pass + newUser.salt).digest('hex');
 
-    var queryIns = `
+    var queryNewUser = `
         INSERT INTO registro
         (usuario, hash, salt)
         VALUES
@@ -48,57 +67,61 @@ function registrarUsuario(usuario, pass)
             '${newUser.salt}'
         );`;
 
-
-    var con = mysql.createConnection(ddbbConf);
-
-    try
-    {
-        con.connect(function(err) {
-            if (err) throw err;
-
-            con.query(queryIns, function(err, result, fields) {
-                if (err) throw err;
-                console.log(`Inserted User: ${result.insertId}`);
-                con.end();
-            });
-        });
-    } catch (err) {
-        con.end();
-
-        const errMsg = `FALLO AL INSERTAR USUARIO`;
-        console.log(errMsg);
+    const callbackNewUser = function(result, res) {
+        console.log(`Inserted User: ${result.insertId}`);
+        res.send(`Inserted User: ${result.insertId}`);
     }
+
+    executeQuery(queryNewUser, callbackNewUser, res);
 }
 
-function loginUsuario(usuario, pass)
+function loginUsuario(usuario, pass, res)
 {
     // newUser.hash = crypto.createHash('sha256').update(newUser.pass + newUser.salt).digest('hex');
-
-    var querySel = `
+    var queryLogin = `
     SELECT idRegistro, usuario, \`hash\`, salt 
     FROM ltiempo.registro 
     WHERE usuario="${usuario}";`;
 
-    var con = mysql.createConnection(ddbbConf);
 
-    try
-    {
-        con.connect(function(err) {
-            if (err) throw err;
+    const callbackLogin = function(result, res){
+        var resultado = undefined;
 
-            con.query(querySel, function(err, result, fields) {
-                if (err) throw err;
-                console.log(result);
-                console.log("************");
-                con.end();
-            });
-        });
-    } catch (err) {
-        con.end();
+        if (result.length <= 0) {
+            resultado = {
+                status: 1, // 0 Usuario logueado, 1 Usuario incorrecto, 2 Contraseña incorrecta
+                idUser: undefined, 
+                nameUser: undefined,
+                msg: "Usuario incorrecto" 
+            };
+        } else { // Si existe entonces verificamos contraseña            
+            //Calculamos hash de input
+            var hash_in = crypto.createHash('sha256').update(pass + result[0].salt).digest('hex')
+            // console.log(pass_in)
+            // console.log(result[0].hash)
+            // Comparamos el hash de input con el hash de la base de datos
+            if (hash_in == result[0].hash) {
+                // console.log('Usuario Autenticado!!!! Puede Acceder a la Pagina');
+                resultado = resultado = {
+                    status: 0, // 0 Usuario logueado, 1 Usuario incorrecto, 2 Contraseña incorrecta
+                    idUser: result[0].idRegistro,
+                    nameUser: result[0].usuario,
+                    msg: "Usuario logueado" 
+                };
+            } else {
+                resultado = {
+                    status: 2, // 0 Usuario logueado, 1 Usuario incorrecto, 2 Contraseña incorrecta
+                    idUser: undefined, 
+                    nameUser: undefined,
+                    msg: "Constraseña incorrecta" 
+                }
+            }                    
+        } 
 
-        const errMsg = `FALLO AL LOGUEAR USUARIO`;
-        console.log(errMsg);
+        res.send(resultado);
     }
+
+    executeQuery(queryLogin, callbackLogin, res);
 }
 
 /*
@@ -111,7 +134,7 @@ function loginUsuario(usuario, pass)
 }
 */
 
-// loginUsuario("Pedro","pass");
+// loginUsuario("Pedro", "123");
 // registrarUsuario("usuario987987", "pass");
 // return id_usuario  OR ¿?¿?
 // function loginUsuario(usuario, pass) { return 62;}
@@ -255,7 +278,7 @@ con.query(queryFindUsr, [UsrtInpt.usr_input], function(err, result, fields) {
 
 module.exports = {
     registrarUsuario: registrarUsuario,
-    // loginUsuario: loginUsuario,
+    loginUsuario: loginUsuario,
     // addUbicacion: addUbicacion,
     // listaUbicacion: listaUbicacion,
 }
