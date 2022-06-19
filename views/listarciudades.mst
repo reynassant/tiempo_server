@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="es-ES">
+    <head>
+        {{ head }}
+    </head>
+    <body>
+        <div class="todo">
+            <h1>Listar Ciudades</h1>
+            <form action="/listarciudades_action" method="post">
+                <label for="fname">ID Usuario:</label><br>
+                <input type="text" id="idusuario" name="idusuario" placeholder="ID usuario"><br>                
+                <input type="submit" id="boton" placeholder="Listar" href="listarciudades.html">
+            </form>         
+        </div>
+    </body>
+</html>

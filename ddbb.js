@@ -48,6 +48,44 @@ function registrarUsuario(usuario, pass, res) {
   executeQuery(queryNewUser, callbackNewUser, res);
 }
 
+function registrarCiudad(idusuario, ciudad, lat, lon, res) {
+
+  var queryNewCity = `
+        INSERT INTO ciudades
+        (idRegistro, ciudad, lat, lon)
+        VALUES
+        (
+            '${idusuario}',
+            '${ciudad}',
+            '${lat}',
+            '${lon}'
+        );`;
+
+  const callbackNewCity = function (result, res) {
+    console.log(`Ciudad Anadida: ${result.insertId}`);
+    res.send(`Ciudad Anadida: ${result.insertId}`);
+  };
+
+  executeQuery(queryNewCity, callbackNewCity, res);
+}
+
+function listarCiudades(idusuario, res) {
+  // newUser.hash = crypto.createHash('sha256').update(newUser.pass + newUser.salt).digest('hex');
+  var queryListar = `
+    SELECT idRegistro, ciudad, lat, lon 
+    FROM ltiempo.ciudades 
+    WHERE idRegistro="${idusuario}";`;
+
+  const callbackListar = function (result, res) {    
+    res.send(result);
+  };
+
+  executeQuery(queryListar, callbackListar, res);
+}
+
+
+
+
 function loginUsuario(usuario, pass, res) {
   // newUser.hash = crypto.createHash('sha256').update(newUser.pass + newUser.salt).digest('hex');
   var queryLogin = `
@@ -99,16 +137,16 @@ function loginUsuario(usuario, pass, res) {
   executeQuery(queryLogin, callbackLogin, res);
 }
 
-// loginUsuario("Pedro", "123");
-// registrarUsuario("usuario987987", "pass");
-// return id_usuario  OR ¿?¿?
-// function loginUsuario(usuario, pass) { return 62;}
-// function addUbicacion(id_usuario, nombre, lat, lon) {}
-// function listaUbicacion(id_usuario) {}
-
 module.exports = {
   registrarUsuario: registrarUsuario,
+  registrarCiudad: registrarCiudad,
+  listarCiudades: listarCiudades,
   loginUsuario: loginUsuario,
+
   // addUbicacion: addUbicacion,
   // listaUbicacion: listaUbicacion,
 };
+
+
+
+// function addUbicacion(id_usuario, nombre, lat, lon) {}
