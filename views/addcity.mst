@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="es-ES">
+    <head>
+        {{ head }}
+    </head>
+    <body>
+        <div class="todo">
+            <h1>AGREGAR CIUDAD</h1>
+            <form action="/addcity_action" method="post">
+                <label for="fname">Nombre Ciudad:</label><br>
+                <input type="text" id="ciudad" name="ciudad" placeholder="nombre ciudad"><br>
+                <label for="lname">ID Usuario</label><br>
+                <input type="text" id="idusuario" name="idusuario" placeholder="id usuario"><br>   
+                <label for="lname">Latitud</label><br>
+                <input type="text" id="lat" name="lat" placeholder="latitud"><br>  
+                <label for="lname">Longitud</label><br>
+                <input type="text" id="lon" name="lon" placeholder="longitud"><br>                 
+                <input type="submit" id="boton" placeholder="Agregar" href="addcity.html">
+            </form>         
+        </div>
+    </body>
+</html>

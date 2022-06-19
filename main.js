@@ -58,6 +58,12 @@ app.get("/registro", (req, res) => {
   });
 });
 
+app.get("/addcity", (req, res) => {
+  res.render("addcity.mst", {
+    head: "Pagina de Anadir Ciudad",
+  });
+});
+
 //rendering example for response
 
 app.get("/nuevoindex", (req, res) => {
@@ -66,6 +72,14 @@ app.get("/nuevoindex", (req, res) => {
     head: getTemplate("head.mst"),
   });
 });
+
+app.get("/listarciudades", (req, res) => {
+  /// const pre = Mustache.render(path.join(__dirname,'views','pre.mst'))
+  res.render("listarciudades.mst", {
+    head:'Pagina de Anadir Ciudad',
+  });
+});
+
 
 app.use("/login_action", (req, res) => {
   const { usuario, pass } = req.body;
@@ -80,6 +94,21 @@ app.post("/register_action", (req, res) => {
   ddbb.registrarUsuario(usuario, pass, res);
   // res.send("registro_user");
 });
+
+app.post("/addcity_action", (req, res) => {
+  const { ciudad, idusuario,lat,lon } = req.body;
+  console.log(`Aqui esta el user ${idusuario} con la ciudad ${ciudad}, latidud ${lat}, longitud ${lon}`);
+  ddbb.registrarCiudad(idusuario, ciudad, lat, lon, res);
+  // res.send("registro_user");
+});
+
+app.post("/listarciudades_action", (req, res) => {
+  const { idusuario } = req.body;
+  console.log(`Aqui esta el user ${idusuario}`);
+  ddbb.listarCiudades(idusuario,res);
+  // res.send("registro_user");
+});
+
 
 app.use("/", express.static(STATIC_PATH));
 
