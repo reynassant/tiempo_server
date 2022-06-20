@@ -39,7 +39,7 @@ app.engine('mst', mustacheExpress(VIEWS_PATH, '.mst'));
 //rendering example for response
 
 
-app.get('/nuevoindex', (req, res) => {
+app.get('/nuevoindex', (req, res) => { 
     console.log("aquiiiii")
 
 
@@ -62,19 +62,20 @@ app.get('/nuevoindex', (req, res) => {
         head: head,
     });
 });
-
+                            //este es el request del navegador
 app.post('/login_action', (req, res) => {
     const { name, pass } = req.body;
-
+                            //de aqui cogemos el body del request que hace nuestro navegador
 
     console.log(`Aqui esta el user ${name} con el pass ${pass}`);
 
     console.log("LOGIN TODO");
-    res.send("LOGIN");
+    res.send("LOGIN"); // <-- devuelve lo que pongas aquí, tal vez es un .redirect para reenviar a otra página
+                       // en este caso es la cadena de texto LOGIN
 })
 
 app.post('/registro_action', (req, res) => {
-
+    const { name, pass } = req.body;
 
     console.log("registro_user TODO");
     res.send("registro_user");
