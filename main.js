@@ -9,8 +9,6 @@ const PORT = process.env.PORT;
 const STATIC_PATH = path.join(__dirname, "..", "tiempo_cliente");
 const VIEWS_PATH = path.join(__dirname, "views");
 
-
-
 // To set functioning of mustachejs view engine
 
 app.use(
